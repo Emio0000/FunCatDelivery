@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnLogin" type="id" />
+    <item name="btnRegister" type="id" />
+    <item name="btnCart" type="id" />
+    <item name="btnOrders" type="id" />
+    <item name="btnPayment" type="id" />
+    <item name="etEmail" type="id" />
+    <item name="etPassword" type="id" />
+    <item name="etName" type="id" />
+    <item name="btnHome" type="id" />
+    <item name="btnLogout" type="id" />
+    <item name="cartListView" type="id" />
+    <item name="btnProceedToOrder" type="id" />
+    <item name="btnBackToMenu" type="id" />
+</resources>

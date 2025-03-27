@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Payment Method"
+        android:textSize="24sp"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Total Amount Text -->
+    <TextView
+        android:id="@+id/txtTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: $0.00"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Payment method options -->
+    <RadioGroup
+        android:id="@+id/paymentMethodGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbCOD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash on Delivery (COD)" />
+
+        <RadioButton
+            android:id="@+id/rbCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Credit Card" />
+
+        <RadioButton
+            android:id="@+id/rbPayPal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PayPal" />
+    </RadioGroup>
+
+    <!-- Confirm Payment Button -->
+    <Button
+        android:id="@+id/btnSubmitPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm Payment"
+        android:layout_marginTop="20dp" />
+
+    <!-- Back to Cart Button -->
+    <Button
+        android:id="@+id/btnBackToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Cart"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#9E9E9E"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
+
