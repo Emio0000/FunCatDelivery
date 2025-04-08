@@ -16,13 +16,14 @@ public class OrderConfirmationPage extends Activity {
     private ListView orderConfirmationListView;
     private TextView tvConfirmationMessage, tvPaymentMethod, tvTotalAmount;
     private Button btnGoToMenu, btnGoToHome;
+    private ArrayList<CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmation);
 
-        // Find views
+        // Initialize views
         orderConfirmationListView = findViewById(R.id.orderConfirmationListView);
         tvConfirmationMessage = findViewById(R.id.tvConfirmationMessage);
         tvPaymentMethod = findViewById(R.id.tvPaymentMethod);
@@ -32,13 +33,8 @@ public class OrderConfirmationPage extends Activity {
 
         // Get the cart items and payment method passed from PaymentPage
         Intent intent = getIntent();
-        ArrayList<CartItem> cartItems = (ArrayList<CartItem>) intent.getSerializableExtra("cartItems");
+        cartItems = (ArrayList<CartItem>) intent.getSerializableExtra("cartItems");
         String paymentMethod = intent.getStringExtra("paymentMethod");
-
-        // Check if the cart items are not null
-        if (cartItems == null) {
-            cartItems = new ArrayList<>();
-        }
 
         // Set the confirmation message and payment method
         tvConfirmationMessage.setText("Thank you for your order!");

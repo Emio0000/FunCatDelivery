@@ -45,7 +45,6 @@ public class CartPage extends Activity {
         // Proceed to PaymentPage when clicked
         btnProceedToOrder.setOnClickListener(v -> {
             if (cartItems.isEmpty()) {
-                // Show a toast if there are no items in the cart
                 Toast.makeText(CartPage.this, "You need to add something to the cart before proceeding to payment.", Toast.LENGTH_SHORT).show();
             } else {
                 Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
@@ -84,32 +83,28 @@ public class CartPage extends Activity {
             Button deleteButton = convertView.findViewById(R.id.btnDeleteItem);
 
             // Set item name and price properly
-            itemText.setText(currentItem.getItemName()); // Set food name
-            itemPrice.setText("$" + currentItem.getItemPrice()); // Set price
-            quantityText.setText(String.valueOf(currentItem.getQuantity())); // Set quantity
+            itemText.setText(currentItem.getItemName());
+            itemPrice.setText("$" + currentItem.getItemPrice());
+            quantityText.setText(String.valueOf(currentItem.getQuantity()));
 
             // Handle buttons for updating quantity and deleting items
-
-            // Decrease quantity
             btnMinus.setOnClickListener(v -> {
                 if (currentItem.getQuantity() > 1) {
                     currentItem.setQuantity(currentItem.getQuantity() - 1);
                     quantityText.setText(String.valueOf(currentItem.getQuantity()));
-                    notifyDataSetChanged(); // Refresh the ListView
+                    notifyDataSetChanged();
                 }
             });
 
-            // Increase quantity
             btnPlus.setOnClickListener(v -> {
                 currentItem.setQuantity(currentItem.getQuantity() + 1);
                 quantityText.setText(String.valueOf(currentItem.getQuantity()));
-                notifyDataSetChanged(); // Refresh the ListView
+                notifyDataSetChanged();
             });
 
-            // Delete item from cart
             deleteButton.setOnClickListener(v -> {
-                cartItems.remove(position);  // Remove the item from the list
-                notifyDataSetChanged(); // Refresh the ListView
+                cartItems.remove(position);
+                notifyDataSetChanged();
                 Toast.makeText(CartPage.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
             });
 
@@ -117,4 +112,3 @@ public class CartPage extends Activity {
         }
     }
 }
-

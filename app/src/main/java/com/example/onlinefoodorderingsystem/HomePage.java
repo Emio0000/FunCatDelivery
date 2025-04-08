@@ -19,7 +19,7 @@ public class HomePage extends Activity {
 
         btnMenu.setOnClickListener(v -> startActivity(new Intent(HomePage.this, MenuPage.class)));
         btnCart.setOnClickListener(v -> startActivity(new Intent(HomePage.this, CartPage.class)));
-        btnOrders.setOnClickListener(v -> startActivity(new Intent(HomePage.this, OrdersPage.class)));
+        btnOrders.setOnClickListener(v -> startActivity(new Intent(HomePage.this, OrderPage.class)));
 
         btnLogout.setOnClickListener(v -> {
             // TODO: Implement Firebase Sign Out Here

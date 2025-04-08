@@ -1,53 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center">
+    android:padding="24dp">
 
-    <!-- Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp" />
-
-    <!-- Welcome Message -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Online Food Ordering"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp" />
-
-    <!-- Buttons -->
-    <Button
-        android:id="@+id/btnMenu"
+    <!-- App Title Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Menu" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="32dp">
 
-    <Button
-        android:id="@+id/btnCart"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FunCat Delivery"
+            android:textSize="24sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ORDER YOUR FAVORITE MEAL"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Online Delivery Status -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Cart" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp">
 
-    <Button
-        android:id="@+id/btnOrders"
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/circle_green"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online - Delivery Available"
+            android:textSize="12sp"
+            android:textColor="#4CAF50"/>
+    </LinearLayout>
+
+    <!-- Menu Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Orders" />
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_marginBottom="24dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Menu Button -->
+            <Button
+                android:id="@+id/btnMenu"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@android:drawable/ic_menu_agenda"
+                android:drawablePadding="16dp"
+                android:drawableTint="#6200EE"
+                android:gravity="start|center_vertical"
+                android:text="Browse Menu"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:background="?attr/selectableItemBackground"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="#EEEEEE"/>
+
+            <!-- Cart Button -->
+            <Button
+                android:id="@+id/btnCart"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="16dp"
+                android:drawableTint="#6200EE"
+                android:gravity="start|center_vertical"
+                android:text="My Cart"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:background="?attr/selectableItemBackground"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="#EEEEEE"/>
+
+            <!-- Orders Button -->
+            <Button
+                android:id="@+id/btnOrders"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@android:drawable/ic_menu_recent_history"
+                android:drawablePadding="16dp"
+                android:drawableTint="#101010"
+                android:gravity="start|center_vertical"
+                android:text="My Orders"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:background="?attr/selectableItemBackground"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Log Out Button -->
     <Button
         android:id="@+id/btnLogout"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:backgroundTint="#FF5733"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="20dp" />
+        android:layout_height="48dp"
+        android:text="Log Out"
+        android:textColor="#090909"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false"
+        android:drawableStart="@android:drawable/ic_lock_power_off"
+        android:drawablePadding="16dp"
+        android:drawableTint="#6200EE"/>
 </LinearLayout>

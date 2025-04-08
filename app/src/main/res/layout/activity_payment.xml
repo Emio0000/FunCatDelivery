@@ -2,69 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- App Title Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Payment Method"
-        android:textSize="24sp"
-        android:layout_marginBottom="20dp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="32dp">
 
-    <!-- Total Amount Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FunCat Delivery"
+            android:textSize="24sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PAYMENT PAGE"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Payment Method Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/rb_credit_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Credit Card"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:padding="10dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_paypal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PayPal"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:padding="10dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_cod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash on Delivery"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <!-- Total Amount Section -->
     <TextView
         android:id="@+id/txtTotalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total: $0.00"
-        android:textSize="18sp"
-        android:layout_marginBottom="20dp" />
+        android:textSize="20sp"
+        android:textColor="#212121"
+        android:layout_marginBottom="32dp"/>
 
-    <!-- Payment method options -->
-    <RadioGroup
-        android:id="@+id/paymentMethodGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/rbCOD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cash on Delivery (COD)" />
-
-        <RadioButton
-            android:id="@+id/rbCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Credit Card" />
-
-        <RadioButton
-            android:id="@+id/rbPayPal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PayPal" />
-    </RadioGroup>
-
-    <!-- Confirm Payment Button -->
+    <!-- Submit Button Section -->
     <Button
         android:id="@+id/btnSubmitPayment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Payment"
-        android:layout_marginTop="20dp" />
-
-    <!-- Back to Cart Button -->
-    <Button
-        android:id="@+id/btnBackToCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back to Cart"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#9E9E9E"
-        android:textColor="#FFFFFF" />
+        android:text="Submit Payment"
+        android:textColor="#ffffff"
+        android:background="#6200EE"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
 
 </LinearLayout>
-

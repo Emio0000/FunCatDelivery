@@ -23,7 +23,7 @@
         <!-- Other Activities -->
         <activity android:name=".HomePage" android:exported="true"/>
         <activity android:name=".RegisterPage" android:exported="true"/>
-        <activity android:name=".OrdersPage" android:exported="true"/>
+        <activity android:name=".OrderPage" android:exported="true"/>
         <activity android:name=".MenuPage" android:exported="true"/>
         <activity android:name=".CartPage" android:exported="true"/>
         <activity android:name=".PaymentPage" android:exported="true"/>

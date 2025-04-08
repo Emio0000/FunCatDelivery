@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         btnCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartPage.class)));
 
         // Navigate to Orders Page
-        btnOrders.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OrdersPage.class)));
+        btnOrders.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, OrderPage.class)));
 
         // Navigate to Payment Page
         btnPayment.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PaymentPage.class)));
