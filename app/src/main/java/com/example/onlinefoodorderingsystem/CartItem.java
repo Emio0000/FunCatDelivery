@@ -1,4 +1,5 @@
 package com.example.onlinefoodorderingsystem;
+
 import java.io.Serializable;
 
 public class CartItem implements Serializable {
@@ -36,5 +37,14 @@ public class CartItem implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-}
 
+    // Override toString() for easy debugging/logging
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "itemName='" + itemName + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", quantity=" + quantity +
+                '}';
+    }
+}

@@ -11,53 +11,60 @@ import java.util.ArrayList;
 
 public class MenuPage extends Activity {
 
-    private ArrayList<CartItem> cartItems; // List to hold CartItem objects
+    private ArrayList<CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_menu); // Your XML file name
 
-        // Initialize cartItems list
         cartItems = new ArrayList<>();
 
-        // Find menu item buttons
-        Button btnAddPizza = findViewById(R.id.btnAddPizza);
-        Button btnAddBurger = findViewById(R.id.btnAddBurger);
-        Button btnAddSalad = findViewById(R.id.btnAddSalad);
+        // Menu item Add buttons (ensure these IDs match the ones in the XML)
+        Button btnCart = findViewById(R.id.btnCart);
 
-        // Add Pizza to the cart
-        btnAddPizza.setOnClickListener(v -> {
-            cartItems.add(new CartItem("Pizza", 12.99, 1)); // Add pizza with quantity 1
-            Toast.makeText(MenuPage.this, "Pizza added to cart!", Toast.LENGTH_SHORT).show();
-        });
+        // Menu item buttons (ensure correct IDs)
+        ArrayList<Button> addButtons = new ArrayList<>();
+        addButtons.add(findViewByIndex(0)); // Chicken Chop
+        addButtons.add(findViewByIndex(1)); // Lamb Grilled
+        addButtons.add(findViewByIndex(2)); // Double Burger
+        addButtons.add(findViewByIndex(3)); // Deer Satay
+        addButtons.add(findViewByIndex(4)); // Salad
+        addButtons.add(findViewByIndex(5)); // Salmon Salad
 
-        // Add Burger to the cart
-        btnAddBurger.setOnClickListener(v -> {
-            cartItems.add(new CartItem("Burger", 8.99, 1)); // Add burger with quantity 1
-            Toast.makeText(MenuPage.this, "Burger added to cart!", Toast.LENGTH_SHORT).show();
-        });
+        // Menu item names and prices
+        String[] names = {"Chicken Chop", "Lamb Grilled", "Double Burger", "Deer Satay", "Salad", "Salmon Salad"};
+        double[] prices = {12.90, 40.00, 15.50, 20.00, 5.00, 25.00};
 
-        // Add Salad to the cart
-        btnAddSalad.setOnClickListener(v -> {
-            cartItems.add(new CartItem("Salad", 5.99, 1)); // Add salad with quantity 1
-            Toast.makeText(MenuPage.this, "Salad added to cart!", Toast.LENGTH_SHORT).show();
-        });
+        // Add the items to the cart
+        for (int i = 0; i < addButtons.size(); i++) {
+            final int index = i;
+            addButtons.get(i).setOnClickListener(v -> {
+                cartItems.add(new CartItem(names[index], prices[index], 1));
+                Toast.makeText(MenuPage.this, names[index] + " added to cart!", Toast.LENGTH_SHORT).show();
+            });
+        }
 
-        // Go to Cart Page
-        Button btnGoToCart = findViewById(R.id.btnGoToCart);
-        btnGoToCart.setOnClickListener(v -> {
+        // Go to CartPage when clicked
+        btnCart.setOnClickListener(v -> {
             Intent intent = new Intent(MenuPage.this, CartPage.class);
             intent.putExtra("cartItems", cartItems); // Pass cart items to CartPage
             startActivity(intent);
         });
+    }
 
-        // Back to HomePage when Back button is clicked
-        Button btnBackToHome = findViewById(R.id.btnBackToHome);
-        btnBackToHome.setOnClickListener(v -> {
-            Intent homeIntent = new Intent(MenuPage.this, HomePage.class);
-            startActivity(homeIntent);
-            finish(); // Close the current activity
-        });
+    // Helper method to get Add button by position in XML
+    private Button findViewByIndex(int index) {
+        // The order of buttons in XML matches the order here
+        int[] ids = {
+                R.id.button1, // Update these to actual IDs in XML
+                R.id.button2,
+                R.id.button3,
+                R.id.button4,
+                R.id.button5,
+                R.id.button6
+        };
+
+        return findViewById(ids[index]);
     }
 }

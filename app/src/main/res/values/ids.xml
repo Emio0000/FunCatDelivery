@@ -13,4 +13,6 @@
     <item name="cartListView" type="id" />
     <item name="btnProceedToOrder" type="id" />
     <item name="btnBackToMenu" type="id" />
+    <item name="btnSubmitPayment" type="id" />
+    <item name="txtTotalAmount" type="id" />
 </resources>
