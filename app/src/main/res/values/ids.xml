@@ -22,4 +22,5 @@
     <item name="btnDeleteAll" type="id" />
     <item name="pastOrdersListView" type="id" />
     <item name="tvNoOrdersMessage" type="id" />
+    <item name="checkBox" type="id" />
 </resources>

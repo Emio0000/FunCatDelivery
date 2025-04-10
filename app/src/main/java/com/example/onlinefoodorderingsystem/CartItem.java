@@ -7,6 +7,17 @@ public class CartItem implements Serializable {
     private double itemPrice;
     private int quantity;
 
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+
     public CartItem(String itemName, double itemPrice, int quantity) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;

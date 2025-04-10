@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,20 +31,38 @@ public class CartPage extends Activity {
         btnProceedToOrder = findViewById(R.id.btnProceedToOrder);
         btnBackToMenu = findViewById(R.id.btnBackToMenu);
 
-        // Load cart items from SharedPreferences
+        // Load cart items from CartManager
         cartItems = CartManager.getCartItems(this);
 
         adapter = new CartAdapter(cartItems);
         cartListView.setAdapter(adapter);
 
         btnProceedToOrder.setOnClickListener(v -> {
-            if (cartItems.isEmpty()) {
-                Toast.makeText(CartPage.this, "You need to add something to the cart before proceeding to payment.", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
-                paymentIntent.putExtra("cartItems", cartItems);
-                startActivity(paymentIntent);
+            ArrayList<CartItem> selectedItems = new ArrayList<>();
+            ArrayList<CartItem> unselectedItems = new ArrayList<>();
+
+            // Separate selected and unselected items
+            for (CartItem item : cartItems) {
+                if (item.isSelected()) {
+                    selectedItems.add(item);
+                } else {
+                    unselectedItems.add(item);
+                }
             }
+
+            // Check if at least one item is selected
+            if (selectedItems.isEmpty()) {
+                Toast.makeText(CartPage.this, "Please select at least one item to proceed.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Save only the unselected items back to CartManager
+            CartManager.replaceCart(CartPage.this, unselectedItems);
+
+            // Proceed with selected items to the PaymentPage
+            Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
+            paymentIntent.putExtra("cartItems", selectedItems);
+            startActivity(paymentIntent);
         });
 
         btnBackToMenu.setOnClickListener(v -> {
@@ -69,6 +88,7 @@ public class CartPage extends Activity {
             TextView itemText = convertView.findViewById(R.id.itemText);
             TextView itemPrice = convertView.findViewById(R.id.itemPrice);
             TextView quantityText = convertView.findViewById(R.id.quantityText);
+            CheckBox checkBox = convertView.findViewById(R.id.itemCheckBox);  // Reference to the CheckBox
             Button btnMinus = convertView.findViewById(R.id.btnMinus);
             Button btnPlus = convertView.findViewById(R.id.btnPlus);
             Button deleteButton = convertView.findViewById(R.id.btnDeleteItem);
@@ -76,7 +96,15 @@ public class CartPage extends Activity {
             itemText.setText(currentItem.getItemName());
             itemPrice.setText("$" + currentItem.getItemPrice());
             quantityText.setText(String.valueOf(currentItem.getQuantity()));
+            checkBox.setChecked(currentItem.isSelected());  // Set the checkbox state based on selection
 
+            // Handle checkbox click event
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                currentItem.setSelected(isChecked);  // Update the CartItem's selected state
+                notifyDataSetChanged();  // Refresh the ListView to reflect the change
+            });
+
+            // Minus button to decrease quantity
             btnMinus.setOnClickListener(v -> {
                 if (currentItem.getQuantity() > 1) {
                     currentItem.setQuantity(currentItem.getQuantity() - 1);
@@ -85,12 +113,14 @@ public class CartPage extends Activity {
                 }
             });
 
+            // Plus button to increase quantity
             btnPlus.setOnClickListener(v -> {
                 currentItem.setQuantity(currentItem.getQuantity() + 1);
                 CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                 notifyDataSetChanged();
             });
 
+            // Delete button to remove item from the cart
             deleteButton.setOnClickListener(v -> {
                 CartManager.removeItem(CartPage.this, position);
                 cartItems.remove(position);
