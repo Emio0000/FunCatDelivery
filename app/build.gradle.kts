@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.onlinefoodorderingsystem"
-        minSdk = 35
+        minSdk = 30
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -36,16 +36,18 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
 
+    implementation("com.google.code.gson:gson:2.10.1") // ✅ Kotlin DSL syntax
+
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
 apply(plugin = "com.google.gms.google-services") // ✅ This goes at the **bottom** of this file!

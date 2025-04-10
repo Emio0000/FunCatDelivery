@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +27,7 @@ public class RegisterPage extends Activity {
         EditText etEmail = findViewById(R.id.etEmail);
         EditText etPassword = findViewById(R.id.etPassword);
         Button btnRegister = findViewById(R.id.btnRegister);
+        TextView tvLoginRedirect = findViewById(R.id.tvLoginRedirect);
 
         btnRegister.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
@@ -39,6 +41,12 @@ public class RegisterPage extends Activity {
             } else {
                 registerUser(email, password);
             }
+        });
+
+        // Redirect to LoginPage if user already has an account
+        tvLoginRedirect.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterPage.this, LoginPage.class));
+            finish();
         });
     }
 

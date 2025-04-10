@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,6 +19,7 @@ public class CartPage extends Activity {
     private Button btnProceedToOrder;
     private Button btnBackToMenu;
     private ArrayList<CartItem> cartItems;
+    private CartAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,38 +30,29 @@ public class CartPage extends Activity {
         btnProceedToOrder = findViewById(R.id.btnProceedToOrder);
         btnBackToMenu = findViewById(R.id.btnBackToMenu);
 
-        // Get the cart items passed from MenuPage
-        Intent intent = getIntent();
-        cartItems = (ArrayList<CartItem>) intent.getSerializableExtra("cartItems");
+        // Load cart items from SharedPreferences
+        cartItems = CartManager.getCartItems(this);
 
-        if (cartItems == null) {
-            cartItems = new ArrayList<>();
-        }
-
-        // Set custom adapter for ListView
-        CartAdapter adapter = new CartAdapter(cartItems);
+        adapter = new CartAdapter(cartItems);
         cartListView.setAdapter(adapter);
 
-        // Proceed to PaymentPage when clicked
         btnProceedToOrder.setOnClickListener(v -> {
             if (cartItems.isEmpty()) {
                 Toast.makeText(CartPage.this, "You need to add something to the cart before proceeding to payment.", Toast.LENGTH_SHORT).show();
             } else {
                 Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
-                paymentIntent.putExtra("cartItems", cartItems); // Pass cart items to PaymentPage
+                paymentIntent.putExtra("cartItems", cartItems);
                 startActivity(paymentIntent);
             }
         });
 
-        // Back to MenuPage when clicked
         btnBackToMenu.setOnClickListener(v -> {
             Intent menuIntent = new Intent(CartPage.this, MenuPage.class);
             startActivity(menuIntent);
-            finish(); // Close the current activity
+            finish();
         });
     }
 
-    // Custom Adapter class to handle list item and quantity change
     private class CartAdapter extends ArrayAdapter<CartItem> {
         public CartAdapter(ArrayList<CartItem> items) {
             super(CartPage.this, R.layout.item_cart, items);
@@ -82,27 +73,26 @@ public class CartPage extends Activity {
             Button btnPlus = convertView.findViewById(R.id.btnPlus);
             Button deleteButton = convertView.findViewById(R.id.btnDeleteItem);
 
-            // Set item name and price properly
             itemText.setText(currentItem.getItemName());
             itemPrice.setText("$" + currentItem.getItemPrice());
             quantityText.setText(String.valueOf(currentItem.getQuantity()));
 
-            // Handle buttons for updating quantity and deleting items
             btnMinus.setOnClickListener(v -> {
                 if (currentItem.getQuantity() > 1) {
                     currentItem.setQuantity(currentItem.getQuantity() - 1);
-                    quantityText.setText(String.valueOf(currentItem.getQuantity()));
+                    CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                     notifyDataSetChanged();
                 }
             });
 
             btnPlus.setOnClickListener(v -> {
                 currentItem.setQuantity(currentItem.getQuantity() + 1);
-                quantityText.setText(String.valueOf(currentItem.getQuantity()));
+                CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                 notifyDataSetChanged();
             });
 
             deleteButton.setOnClickListener(v -> {
+                CartManager.removeItem(CartPage.this, position);
                 cartItems.remove(position);
                 notifyDataSetChanged();
                 Toast.makeText(CartPage.this, "Item removed from cart", Toast.LENGTH_SHORT).show();

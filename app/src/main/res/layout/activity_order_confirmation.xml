@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:background="@drawable/background">
 
-    <!-- TextView to display confirmation message -->
-    <TextView
-        android:id="@+id/tvConfirmationMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thank you for your order!"
-        android:textSize="24sp"
-        android:textColor="#000"
-        android:layout_marginBottom="20dp" />
-
-    <!-- TextView to display payment method -->
-    <TextView
-        android:id="@+id/tvPaymentMethod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Payment Method: "
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:layout_marginBottom="20dp" />
-
-    <!-- ListView to display cart items -->
-    <ListView
-        android:id="@+id/orderConfirmationListView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <!-- Total Amount Text -->
-    <TextView
-        android:id="@+id/tvTotalAmount"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total: $0.00"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:layout_marginTop="20dp" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
 
-    <!-- Button to go back to menu -->
-    <Button
-        android:id="@+id/btnGoToMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back to Menu"
-        android:layout_marginTop="20dp" />
+        <!-- Confirmation Message -->
+        <TextView
+            android:id="@+id/tvConfirmationMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thank you for your order!"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="20dp" />
 
-    <!-- Button to go back to home page -->
-    <Button
-        android:id="@+id/btnGoToHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back to Home"
-        android:layout_marginTop="10dp" />
+        <!-- Payment Method -->
+        <TextView
+            android:id="@+id/tvPaymentMethod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Method: "
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="20dp" />
 
-</LinearLayout>
+        <!-- Ordered Items List -->
+        <ListView
+            android:id="@+id/orderConfirmationListView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Total Amount -->
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: $0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Back to Menu Button -->
+        <Button
+            android:id="@+id/btnGoToMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Menu"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Back to Home Button -->
+        <Button
+            android:id="@+id/btnGoToHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Home" />
+
+    </LinearLayout>
+</ScrollView>
