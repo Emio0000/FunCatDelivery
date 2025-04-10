@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.onlinefoodorderingsystem.PastOrderAdapter;
 
 import java.util.ArrayList;
 
 public class OrderPage extends Activity {
 
+    // UI elements
     private ListView pastOrdersListView;
     private TextView tvNoOrdersMessage;
     private ArrayList<String> pastOrders;
@@ -20,6 +22,7 @@ public class OrderPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
+        // Initialize UI elements
         pastOrdersListView = findViewById(R.id.pastOrdersListView);
         tvNoOrdersMessage = findViewById(R.id.tvNoOrdersMessage);
 

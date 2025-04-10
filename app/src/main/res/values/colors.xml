@@ -6,4 +6,11 @@
     <color name="neon">#08e0ba</color>
     <color name="darkneon">#3a9b7d</color>
     <color name="grey">#2f3332</color>
+
+    <!-- Fixed colors -->
+    <color name="primaryText">#212121</color>
+    <color name="dividerColor">#BDBDBD</color>
+    <color name="secondaryColor">#757575</color>
+    <color name="primaryColor">#08e0ba</color>
+
 </resources>

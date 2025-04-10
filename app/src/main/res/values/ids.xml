@@ -20,4 +20,6 @@
     <item name="ordersListView" type="id" />
     <item name="btnBackToCart" type="id" />
     <item name="btnDeleteAll" type="id" />
+    <item name="pastOrdersListView" type="id" />
+    <item name="tvNoOrdersMessage" type="id" />
 </resources>
