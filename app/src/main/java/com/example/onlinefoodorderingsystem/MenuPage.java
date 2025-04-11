@@ -17,20 +17,29 @@ public class MenuPage extends Activity {
 
         Button btnCart = findViewById(R.id.btnCart);
 
-        // Add item buttons
+        // Create a list of buttons dynamically by getting them from the layout
         ArrayList<Button> addButtons = new ArrayList<>();
-        addButtons.add(findViewByIndex(0)); // Chicken Chop
-        addButtons.add(findViewByIndex(1)); // Lamb Grilled
-        addButtons.add(findViewByIndex(2)); // Double Burger
-        addButtons.add(findViewByIndex(3)); // Deer Satay
-        addButtons.add(findViewByIndex(4)); // Salad
-        addButtons.add(findViewByIndex(5)); // Salmon Salad
+        addButtons.add(findViewById(R.id.button1));
+        addButtons.add(findViewById(R.id.button2));
+        addButtons.add(findViewById(R.id.button3));
+        addButtons.add(findViewById(R.id.button4));
+        addButtons.add(findViewById(R.id.button5));
+        addButtons.add(findViewById(R.id.button6));
+        addButtons.add(findViewById(R.id.button7));
+        addButtons.add(findViewById(R.id.button8));
 
-        // Food names and prices
-        String[] names = {"Chicken Chop", "Lamb Grilled", "Double Burger", "Deer Satay", "Salad", "Salmon Salad"};
-        double[] prices = {12.90, 40.00, 15.50, 20.00, 5.00, 25.00};
 
-        // Add click listeners
+        // Names and prices for the menu items
+        String[] names = {
+                "Chicken Chop", "Lamb Grilled", "Double Burger", "Deer Satay", "Salad", "Salmon Salad",
+                "Coca Cola", "Iced Lemon Tea", "Green Tea", "Mineral Water"
+        };
+        double[] prices = {
+                12.90, 40.00, 15.50, 20.00, 5.00, 25.00,
+                2.50, 3.00, 2.80, 1.50
+        };
+
+        // Set click listeners for the buttons
         for (int i = 0; i < addButtons.size(); i++) {
             final int index = i;
             addButtons.get(i).setOnClickListener(v -> {
@@ -40,22 +49,10 @@ public class MenuPage extends Activity {
             });
         }
 
-        // Go to Cart
+        // Navigate to the CartPage
         btnCart.setOnClickListener(v -> {
             Intent intent = new Intent(MenuPage.this, CartPage.class);
             startActivity(intent);
         });
-    }
-
-    private Button findViewByIndex(int index) {
-        int[] ids = {
-                R.id.button1,
-                R.id.button2,
-                R.id.button3,
-                R.id.button4,
-                R.id.button5,
-                R.id.button6
-        };
-        return findViewById(ids[index]);
     }
 }

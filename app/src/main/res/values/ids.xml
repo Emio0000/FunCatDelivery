@@ -23,4 +23,7 @@
     <item name="pastOrdersListView" type="id" />
     <item name="tvNoOrdersMessage" type="id" />
     <item name="checkBox" type="id" />
+    <item name="button2" type="id" />
+    <item name="button3" type="id" />
+    <item name="button4" type="id" />
 </resources>

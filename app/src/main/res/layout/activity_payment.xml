@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- App Title Section -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,42 +33,85 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-    <!-- Payment Method Section -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="16dp">
 
-        <RadioButton
-            android:id="@+id/rb_credit_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Credit Card"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:padding="10dp"/>
 
-        <RadioButton
-            android:id="@+id/rb_paypal"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PayPal"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:padding="10dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="10dp">
 
-        <RadioButton
-            android:id="@+id/rb_cod"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/card"
+                android:layout_marginEnd="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_credit_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credit Card"
+                android:textSize="16sp"
+                android:textColor="#212121"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cash on Delivery"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:padding="10dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/online"
+                android:layout_marginEnd="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_paypal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PayPal E-Wallet"
+                android:textSize="16sp"
+                android:textColor="#212121"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/cash"
+                android:layout_marginEnd="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_cod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash on Delivery"
+                android:textSize="16sp"
+                android:textColor="#212121"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Total Amount Section -->
+
     <TextView
         android:id="@+id/txtTotalAmount"
         android:layout_width="wrap_content"
@@ -78,7 +121,7 @@
         android:textColor="#212121"
         android:layout_marginBottom="32dp"/>
 
-    <!-- Submit Button Section -->
+
     <Button
         android:id="@+id/btnSubmitPayment"
         android:layout_width="match_parent"
