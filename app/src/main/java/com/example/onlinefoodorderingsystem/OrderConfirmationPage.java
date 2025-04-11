@@ -2,12 +2,12 @@ package com.example.onlinefoodorderingsystem;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,6 +58,9 @@ public class OrderConfirmationPage extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, orderSummary);
         orderConfirmationListView.setAdapter(adapter);
 
+        // Save order and limit to 5 past orders
+        savePastOrder(orderSummary, paymentMethod);
+
         // Handle back to menu button click
         btnGoToMenu.setOnClickListener(v -> {
             Intent goToMenuIntent = new Intent(OrderConfirmationPage.this, MenuPage.class);
@@ -71,5 +74,32 @@ public class OrderConfirmationPage extends Activity {
             startActivity(goToHomeIntent);
             finish(); // Close the OrderConfirmationPage
         });
+    }
+
+    private void savePastOrder(ArrayList<String> orderSummary, String paymentMethod) {
+        SharedPreferences sharedPreferences = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Get existing order data
+        String orderData = sharedPreferences.getString("orderData", "");
+        String orderDetails = String.join("\n", orderSummary);
+
+        // Combine new order with previous orders
+        if (!orderData.isEmpty()) {
+            orderData = orderDetails + "\n" + orderData;
+        } else {
+            orderData = orderDetails;
+        }
+
+        // Keep only the latest 5 orders
+        String[] orders = orderData.split("\n");
+        if (orders.length > 5) {
+            orderData = String.join("\n", java.util.Arrays.copyOfRange(orders, 0, 5));
+        }
+
+        // Save the updated orders to SharedPreferences
+        editor.putString("orderData", orderData);
+        editor.putString("paymentMethod", paymentMethod);
+        editor.apply();
     }
 }

@@ -19,6 +19,7 @@ public class CartPage extends Activity {
     private ListView cartListView;
     private Button btnProceedToOrder;
     private Button btnBackToMenu;
+    private TextView totalPriceTextView; // Reference to the total price TextView
     private ArrayList<CartItem> cartItems;
     private CartAdapter adapter;
 
@@ -30,12 +31,16 @@ public class CartPage extends Activity {
         cartListView = findViewById(R.id.cartListView);
         btnProceedToOrder = findViewById(R.id.btnProceedToOrder);
         btnBackToMenu = findViewById(R.id.btnBackToMenu);
+        totalPriceTextView = findViewById(R.id.totalPrice); // Initialize the TextView
 
         // Load cart items from CartManager
         cartItems = CartManager.getCartItems(this);
 
         adapter = new CartAdapter(cartItems);
         cartListView.setAdapter(adapter);
+
+        // Calculate and display total price
+        updateTotalPrice();
 
         btnProceedToOrder.setOnClickListener(v -> {
             ArrayList<CartItem> selectedItems = new ArrayList<>();
@@ -72,6 +77,18 @@ public class CartPage extends Activity {
         });
     }
 
+    private void updateTotalPrice() {
+        double totalPrice = 0.0;
+        for (CartItem item : cartItems) {
+            if (item.isSelected()) {
+                totalPrice += item.getItemPrice() * item.getQuantity(); // Calculate total for selected items
+            }
+        }
+
+        // Update the total price in the TextView
+        totalPriceTextView.setText(String.format("$%.2f", totalPrice));
+    }
+
     private class CartAdapter extends ArrayAdapter<CartItem> {
         public CartAdapter(ArrayList<CartItem> items) {
             super(CartPage.this, R.layout.item_cart, items);
@@ -102,6 +119,7 @@ public class CartPage extends Activity {
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 currentItem.setSelected(isChecked);  // Update the CartItem's selected state
                 notifyDataSetChanged();  // Refresh the ListView to reflect the change
+                updateTotalPrice(); // Update total price when selection changes
             });
 
             // Minus button to decrease quantity
@@ -110,6 +128,7 @@ public class CartPage extends Activity {
                     currentItem.setQuantity(currentItem.getQuantity() - 1);
                     CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                     notifyDataSetChanged();
+                    updateTotalPrice(); // Update total price when quantity changes
                 }
             });
 
@@ -118,6 +137,7 @@ public class CartPage extends Activity {
                 currentItem.setQuantity(currentItem.getQuantity() + 1);
                 CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                 notifyDataSetChanged();
+                updateTotalPrice(); // Update total price when quantity changes
             });
 
             // Delete button to remove item from the cart
@@ -126,6 +146,7 @@ public class CartPage extends Activity {
                 cartItems.remove(position);
                 notifyDataSetChanged();
                 Toast.makeText(CartPage.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                updateTotalPrice(); // Update total price after item is removed
             });
 
             return convertView;
