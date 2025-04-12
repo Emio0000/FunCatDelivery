@@ -7,7 +7,6 @@
     android:background="@drawable/register"
     android:gravity="center">
 
-
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
@@ -18,8 +17,7 @@
         android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColorHint="#aaa" />
-
+        android:textColorHint="#050505" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -31,8 +29,7 @@
         android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColorHint="#aaa" />
-
+        android:textColorHint="#040404" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -45,32 +42,45 @@
         android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColorHint="#aaa" />
-
+        android:textColorHint="#090909" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="REGISTER"
-        android:textColor="#008B0B"
+        android:textColor="#EFEEEE"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:backgroundTint="#D9C888EB"
-        android:layout_marginTop="10dp" /> <!-- Corrected: attribute placed inside the Button tag -->
+        android:backgroundTint="#D9050505"
+        android:layout_marginTop="10dp" />
 
 
-    <TextView
-        android:id="@+id/tvLoginRedirect"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Login"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:textColor="#040404"
+            android:textSize="14sp" />
 
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:textColor="#EFEEEE"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:backgroundTint="#D9050505"
+            android:layout_marginTop="8dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp" />
+    </LinearLayout>
 </LinearLayout>

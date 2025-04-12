@@ -99,6 +99,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/cart"
                 android:drawablePadding="16dp"
                 android:drawableTint="#6200EE"
                 android:gravity="start|center_vertical"
@@ -130,13 +131,13 @@
                 android:textSize="16sp"
                 android:background="?attr/selectableItemBackground"/>
 
-            <!-- Add this new button below the "My Orders" button -->
+            <!-- Track Order Button -->
             <Button
                 android:id="@+id/btnTrackOrder"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:drawableStart="@drawable/track"
                 android:drawablePadding="16dp"
                 android:drawableTint="#6200EE"
                 android:gravity="start|center_vertical"
@@ -156,11 +157,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="Log Out"
-        android:textColor="#090909"
+        android:textColor="#F2EDED"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"
         android:textAllCaps="false"
         android:drawableStart="@android:drawable/ic_lock_power_off"
         android:drawablePadding="16dp"
-        android:drawableTint="#6200EE"/>
+        android:backgroundTint="@color/black"/>
 </LinearLayout>

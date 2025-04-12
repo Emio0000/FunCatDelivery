@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,13 +32,11 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="16dp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +60,6 @@
                 android:textColor="#212121"/>
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,9 +80,7 @@
                 android:text="PayPal E-Wallet"
                 android:textSize="16sp"
                 android:textColor="#212121"/>
-
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,16 +105,14 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/txtTotalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total: $0.00"
+        android:text="Total: RM0.00"
         android:textSize="20sp"
         android:textColor="#212121"
         android:layout_marginBottom="32dp"/>
-
 
     <Button
         android:id="@+id/btnSubmitPayment"
@@ -128,7 +120,7 @@
         android:layout_height="wrap_content"
         android:text="Submit Payment"
         android:textColor="#ffffff"
-        android:background="#6200EE"
+        android:backgroundTint="@color/black"
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
 
@@ -137,10 +129,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        android:textColor="#0F0E0E"
-        android:backgroundTint="#B388FF"
+        android:textColor="#EFEBEB"
+        android:backgroundTint="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_gravity="start" />
-
 </LinearLayout>
