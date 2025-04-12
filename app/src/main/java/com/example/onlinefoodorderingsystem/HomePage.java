@@ -15,11 +15,13 @@ public class HomePage extends Activity {
         Button btnMenu = findViewById(R.id.btnMenu);
         Button btnCart = findViewById(R.id.btnCart);
         Button btnOrders = findViewById(R.id.btnOrders);
+        Button btnTrackOrder = findViewById(R.id.btnTrackOrder);
         Button btnLogout = findViewById(R.id.btnLogout);
 
         btnMenu.setOnClickListener(v -> startActivity(new Intent(HomePage.this, MenuPage.class)));
         btnCart.setOnClickListener(v -> startActivity(new Intent(HomePage.this, CartPage.class)));
         btnOrders.setOnClickListener(v -> startActivity(new Intent(HomePage.this, OrderPage.class)));
+        btnOrders.setOnClickListener(v -> startActivity(new Intent(HomePage.this, OrderTrackingPage.class)));
 
         btnLogout.setOnClickListener(v -> {
             // TODO: Implement Firebase Sign Out Here

@@ -28,6 +28,8 @@
         <activity android:name=".CartPage" android:exported="true"/>
         <activity android:name=".PaymentPage" android:exported="true"/>
         <activity android:name=".OrderConfirmationPage" android:exported="true"/>
+        <activity android:name=".OrderTrackingPage" android:exported="true" />
+
 
     </application>
 

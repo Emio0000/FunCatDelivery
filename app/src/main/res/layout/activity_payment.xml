@@ -132,4 +132,15 @@
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
 
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textColor="#0F0E0E"
+        android:backgroundTint="#B388FF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_gravity="start" />
+
 </LinearLayout>

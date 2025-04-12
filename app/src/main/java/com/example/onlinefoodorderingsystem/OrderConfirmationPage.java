@@ -1,22 +1,18 @@
 package com.example.onlinefoodorderingsystem;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-public class OrderConfirmationPage extends Activity {
+public class OrderConfirmationPage extends AppCompatActivity {
 
     private ListView orderConfirmationListView;
     private TextView tvConfirmationMessage, tvPaymentMethod, tvTotalAmount;
-    private Button btnGoToMenu, btnGoToHome;
-    private ArrayList<CartItem> cartItems;
+    private Button btnGoToMenu, btnGoToHome, btnTrackOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,76 +26,48 @@ public class OrderConfirmationPage extends Activity {
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         btnGoToMenu = findViewById(R.id.btnGoToMenu);
         btnGoToHome = findViewById(R.id.btnGoToHome);
+        btnTrackOrder = findViewById(R.id.btnTrackOrder);
 
-        // Get the cart items and payment method passed from PaymentPage
-        Intent intent = getIntent();
-        cartItems = (ArrayList<CartItem>) intent.getSerializableExtra("cartItems");
-        String paymentMethod = intent.getStringExtra("paymentMethod");
-
-        // Set the confirmation message and payment method
+        // Example display (you should replace these with real values)
         tvConfirmationMessage.setText("Thank you for your order!");
-        tvPaymentMethod.setText("Payment Method: " + paymentMethod);
+        tvPaymentMethod.setText("Paid with: Credit Card");
+        tvTotalAmount.setText("Total: $25.00");
 
-        // Calculate the total order amount
-        double totalAmount = 0;
-        ArrayList<String> orderSummary = new ArrayList<>();
-        for (CartItem item : cartItems) {
-            double itemTotal = item.getItemPrice() * item.getQuantity();
-            totalAmount += itemTotal;
-            // Create a detailed order summary for each item
-            String itemDetails = item.getItemName() + " x" + item.getQuantity() + " - $" + item.getItemPrice() + " each (Total: $" + itemTotal + ")";
-            orderSummary.add(itemDetails);
-        }
-
-        // Display the total order amount
-        tvTotalAmount.setText("Total: $" + totalAmount);
-
-        // Set up ArrayAdapter to display the order summary in the ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, orderSummary);
-        orderConfirmationListView.setAdapter(adapter);
-
-        // Save order and limit to 5 past orders
-        savePastOrder(orderSummary, paymentMethod);
-
-        // Handle back to menu button click
+        // Handle Go to Menu button
         btnGoToMenu.setOnClickListener(v -> {
-            Intent goToMenuIntent = new Intent(OrderConfirmationPage.this, MenuPage.class);
-            startActivity(goToMenuIntent);
-            finish(); // Close the OrderConfirmationPage
+            Intent intent = new Intent(OrderConfirmationPage.this, MenuPage.class);
+            startActivity(intent);
         });
 
-        // Handle back to home button click
+        // Handle Go to Home button
         btnGoToHome.setOnClickListener(v -> {
-            Intent goToHomeIntent = new Intent(OrderConfirmationPage.this, HomePage.class);
-            startActivity(goToHomeIntent);
-            finish(); // Close the OrderConfirmationPage
+            Intent intent = new Intent(OrderConfirmationPage.this, HomePage.class);
+            startActivity(intent);
+        });
+
+        // Handle Track Order button
+        btnTrackOrder.setOnClickListener(v -> {
+            String selectedFoodName = getSelectedFoodName(); // Replace with actual logic to get the selected food name
+
+            // Save tracking data in SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("OrderTrackingPrefs", MODE_PRIVATE);
+            sharedPreferences.edit()
+                    .putString("trackingFood", selectedFoodName)  // Store the actual food name
+                    .putInt("trackingStatus", 0) // Start at the first status (Order Placed)
+                    .apply();
+
+            // Launch OrderTrackingPage
+            Intent intent = new Intent(OrderConfirmationPage.this, OrderTrackingPage.class);
+            startActivity(intent);
         });
     }
 
-    private void savePastOrder(ArrayList<String> orderSummary, String paymentMethod) {
-        SharedPreferences sharedPreferences = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    // Replace this with your actual selected food logic
+    private String getSelectedFoodName() {
+        // Get the food name from the data or selection the user made.
+        // Example: this could be the food name selected on the menu page or passed through the intent.
 
-        // Get existing order data
-        String orderData = sharedPreferences.getString("orderData", "");
-        String orderDetails = String.join("\n", orderSummary);
-
-        // Combine new order with previous orders
-        if (!orderData.isEmpty()) {
-            orderData = orderDetails + "\n" + orderData;
-        } else {
-            orderData = orderDetails;
-        }
-
-        // Keep only the latest 5 orders
-        String[] orders = orderData.split("\n");
-        if (orders.length > 5) {
-            orderData = String.join("\n", java.util.Arrays.copyOfRange(orders, 0, 5));
-        }
-
-        // Save the updated orders to SharedPreferences
-        editor.putString("orderData", orderData);
-        editor.putString("paymentMethod", paymentMethod);
-        editor.apply();
+        // For the sake of this example, we'll assume the user selected "Pizza"
+        return "Pizza"; // Example, replace with actual dynamic value
     }
 }

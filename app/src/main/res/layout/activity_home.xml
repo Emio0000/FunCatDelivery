@@ -129,6 +129,23 @@
                 android:textColor="#212121"
                 android:textSize="16sp"
                 android:background="?attr/selectableItemBackground"/>
+
+            <!-- Add this new button below the "My Orders" button -->
+            <Button
+                android:id="@+id/btnTrackOrder"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:drawablePadding="16dp"
+                android:drawableTint="#6200EE"
+                android:gravity="start|center_vertical"
+                android:text="Track Order"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:background="?attr/selectableItemBackground"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

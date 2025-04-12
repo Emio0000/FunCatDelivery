@@ -28,6 +28,17 @@
                 android:layout_weight="1" />
 
             <Button
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textColor="#0F0E0E"
+                android:backgroundTint="#B388FF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_gravity="start" />
+
+            <Button
                 android:id="@+id/btnCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
