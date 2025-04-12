@@ -11,7 +11,7 @@
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:hint="Name"
         android:textColor="@color/white"
         android:background="@color/black"
@@ -23,7 +23,7 @@
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:hint="Email"
         android:textColor="@color/white"
         android:background="@color/black"
@@ -35,10 +35,22 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:hint="Password"
         android:textColor="@color/white"
         android:inputType="textPassword"
+        android:background="@color/black"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColorHint="#aaa" />
+
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Address"
+        android:textColor="@color/white"
         android:background="@color/black"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -53,17 +65,16 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:backgroundTint="@color/black"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/tvLoginRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Already have an account?"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="14sp"
-        android:layout_marginTop="24dp" />
-
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btnLoginRedirect"
