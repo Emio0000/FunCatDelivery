@@ -7,17 +7,19 @@
     android:background="@drawable/register"
     android:gravity="center">
 
+
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:hint="Name"
-        android:textColor="@color/white"
-        android:background="@color/black"
+        android:textColor="#333"
+        android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textColorHint="#aaa" />
+
 
     <EditText
         android:id="@+id/etEmail"
@@ -25,11 +27,12 @@
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:hint="Email"
-        android:textColor="@color/white"
-        android:background="@color/black"
+        android:textColor="#333"
+        android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textColorHint="#aaa" />
+
 
     <EditText
         android:id="@+id/etPassword"
@@ -37,42 +40,37 @@
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"
         android:hint="Password"
-        android:textColor="@color/white"
+        android:textColor="#333"
         android:inputType="textPassword"
-        android:background="@color/black"
+        android:background="@android:color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textColorHint="#aaa" />
+
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="REGISTER"
-        android:textColor="@color/white"
+        android:textColor="#008B0B"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:backgroundTint="@color/black"
-        android:layout_marginTop="10dp" />
+        android:backgroundTint="#D9C888EB"
+        android:layout_marginTop="10dp" /> <!-- Corrected: attribute placed inside the Button tag -->
+
 
     <TextView
         android:id="@+id/tvLoginRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account?"
+        android:text="Already have an account? Login"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginTop="24dp" />
-
-
-    <Button
-        android:id="@+id/btnLoginRedirect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textColor="@color/white"
         android:textStyle="bold"
-        android:backgroundTint="@color/black"
-        android:layout_marginTop="4dp" />
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true" />
+
 
 </LinearLayout>
