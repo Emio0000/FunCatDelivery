@@ -16,8 +16,14 @@ public class MenuPage extends Activity {
         setContentView(R.layout.activity_menu);
 
         Button btnCart = findViewById(R.id.btnCart);
+        Button btnBack = findViewById(R.id.btnBack); // ✅ Back button added
 
-        // Create a list of buttons dynamically by getting them from the layout
+        // ✅ Back button click handler
+        btnBack.setOnClickListener(v -> {
+            finish(); // Closes MenuPage and returns to previous activity
+        });
+
+        // Menu item buttons
         ArrayList<Button> addButtons = new ArrayList<>();
         addButtons.add(findViewById(R.id.button1));
         addButtons.add(findViewById(R.id.button2));
@@ -27,12 +33,13 @@ public class MenuPage extends Activity {
         addButtons.add(findViewById(R.id.button6));
         addButtons.add(findViewById(R.id.button7));
         addButtons.add(findViewById(R.id.button8));
-
+        addButtons.add(findViewById(R.id.button9));
+        addButtons.add(findViewById(R.id.button10));
 
         // Names and prices for the menu items
         String[] names = {
                 "Chicken Chop", "Lamb Grilled", "Double Burger", "Deer Satay", "Salad", "Salmon Salad",
-                "Coca Cola", "Iced Lemon Tea", "Green Tea", "Mineral Water"
+                "Orange Juice", "Dragon Juice", "Green Tea", "Vanilla Coffe"
         };
         double[] prices = {
                 12.90, 40.00, 15.50, 20.00, 5.00, 25.00,

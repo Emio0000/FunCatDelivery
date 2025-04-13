@@ -48,6 +48,7 @@ dependencies {
 
     implementation ("androidx.recyclerview:recyclerview-selection:1.1.0")
 
+    implementation ("androidx.cardview:cardview:1.0.0")
 
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     testImplementation(libs.junit)

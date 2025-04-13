@@ -131,36 +131,27 @@
                 android:textSize="16sp"
                 android:background="?attr/selectableItemBackground"/>
 
-            <Button
-                android:id="@+id/btnTrackOrder"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@android:drawable/ic_menu_compass"
-                android:drawablePadding="16dp"
-                android:drawableTint="#6200EE"
-                android:gravity="start|center_vertical"
-                android:text="Track Order"
-                android:textAllCaps="false"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:background="?attr/selectableItemBackground"/>
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- Log Out Button -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:text="Log Out"
-        android:textColor="#F2EDED"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp"
         android:textAllCaps="false"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:drawableStart="@android:drawable/ic_lock_power_off"
-        android:drawablePadding="16dp"
-        android:backgroundTint="@color/black"/>
+        android:drawablePadding="12dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"
+        app:backgroundTint="#B00020"
+        app:cornerRadius="12dp"
+        app:iconGravity="textStart" />
+
 </LinearLayout>
