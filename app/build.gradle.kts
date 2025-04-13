@@ -44,6 +44,11 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.10.1") // ✅ Kotlin DSL syntax
 
+    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+
+    implementation ("androidx.recyclerview:recyclerview-selection:1.1.0")
+
+
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

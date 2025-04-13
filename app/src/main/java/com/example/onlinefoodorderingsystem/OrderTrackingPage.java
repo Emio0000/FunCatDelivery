@@ -7,10 +7,15 @@ import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class OrderTrackingPage extends AppCompatActivity {
@@ -33,18 +38,12 @@ public class OrderTrackingPage extends AppCompatActivity {
 
     private static final String PREF_NAME = "OrderTrackingPrefs";
     private static final String ORDER_PREFS = "OrderPreferences";
-    private static final String KEY_STATUS = "trackingStatus";
-    private static final String KEY_FOOD = "trackingFood";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
-        // Toast to confirm screen loaded
-        Toast.makeText(this, "OrderTrackingPage Loaded", Toast.LENGTH_SHORT).show();
-
-        // Init Views
         tvFoodName = findViewById(R.id.tvFoodName);
         tvStatus = findViewById(R.id.tvStatus);
         tvSubtotal = findViewById(R.id.tvSubtotal);
@@ -54,22 +53,24 @@ public class OrderTrackingPage extends AppCompatActivity {
         btnBackToConfirmation = findViewById(R.id.btnContactSupport);
         rvCartItems = findViewById(R.id.rvCartItems);
 
-        btnBackToConfirmation.setText("Back to Confirmation");
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        SharedPreferences orderPrefs = getSharedPreferences(ORDER_PREFS, MODE_PRIVATE);
 
-        // Load from SharedPreferences
-        // You've already uploaded the correct version!
-// Just make sure the following works:
-
-        // Already uploaded working version — just ensure orderData is loaded:
-        SharedPreferences orderPrefs = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
         String orderData = orderPrefs.getString("orderData", "");
-        ArrayList<CartItem> cartItems = parseOrderData(orderData);
+        if (orderData == null || orderData.isEmpty()) {
+            Toast.makeText(this, "No order found. Returning to home.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+            return;
+        }
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CartItem>>() {}.getType();
+        ArrayList<CartItem> cartItems = gson.fromJson(orderData, type);
 
         rvCartItems.setLayoutManager(new LinearLayoutManager(this));
-        rvCartItems.setAdapter(new CartAdapter(cartItems));
+        rvCartItems.setAdapter(new TrackingCartAdapter(cartItems)); //
 
-
-// Show total
         double subtotal = calculateSubtotal(cartItems);
         double deliveryFee = 5.00;
         double total = subtotal + deliveryFee;
@@ -77,20 +78,18 @@ public class OrderTrackingPage extends AppCompatActivity {
         tvSubtotal.setText(String.format("RM%.2f", subtotal));
         tvDeliveryFee.setText(String.format("RM%.2f", deliveryFee));
         tvTotal.setText(String.format("RM%.2f", total));
-        
-        // Status tracking
-        if (tvFoodName != null) {
-            tvFoodName.setText("Order Summary");
-            updateStatus(currentStep);
-            if (currentStep < statusSteps.length - 1) {
-                startStatusProgression();
-            }
-        } else {
-            tvFoodName.setText("No active order to track");
-            tvStatus.setText("");
+
+        currentStep = sharedPreferences.getInt("trackingStatus", 0);
+
+        // 🔥 Set a static title instead of item name
+        tvFoodName.setText("Order Tracking");
+
+        updateStatus(currentStep);
+
+        if (currentStep < statusSteps.length - 1) {
+            startStatusProgression();
         }
 
-        // Back buttons
         btnBackToHome.setOnClickListener(v -> {
             startActivity(new Intent(OrderTrackingPage.this, HomePage.class));
             finish();
@@ -100,28 +99,6 @@ public class OrderTrackingPage extends AppCompatActivity {
             startActivity(new Intent(OrderTrackingPage.this, OrderConfirmationPage.class));
             finish();
         });
-    }
-
-    private ArrayList<CartItem> parseOrderData(String orderData) {
-        ArrayList<CartItem> items = new ArrayList<>();
-        if (!orderData.isEmpty()) {
-            String[] itemStrings = orderData.split(":");
-            for (String itemString : itemStrings) {
-                String[] parts = itemString.split(";");
-                if (parts.length == 3) {
-                    try {
-                        items.add(new CartItem(
-                                parts[0],
-                                Double.parseDouble(parts[1]),
-                                Integer.parseInt(parts[2])
-                        ));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        return items;
     }
 
     private double calculateSubtotal(ArrayList<CartItem> items) {
@@ -139,12 +116,12 @@ public class OrderTrackingPage extends AppCompatActivity {
                 if (currentStep < statusSteps.length - 1) {
                     currentStep++;
                     updateStatus(currentStep);
-                    sharedPreferences.edit().putInt(KEY_STATUS, currentStep).apply();
-                    handler.postDelayed(this, 7000);
+                    sharedPreferences.edit().putInt("trackingStatus", currentStep).apply();
+                    handler.postDelayed(this, 6000);
                 }
             }
         };
-        handler.postDelayed(statusUpdater, 7000);
+        handler.postDelayed(statusUpdater, 6000);
     }
 
     private void updateStatus(int step) {

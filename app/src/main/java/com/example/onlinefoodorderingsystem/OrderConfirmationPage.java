@@ -7,9 +7,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class OrderConfirmationPage extends AppCompatActivity {
@@ -17,7 +22,6 @@ public class OrderConfirmationPage extends AppCompatActivity {
     private ListView orderConfirmationListView;
     private TextView tvConfirmationMessage, tvPaymentMethod, tvTotalAmount;
     private Button btnGoToMenu, btnGoToHome, btnTrackOrder;
-
     private ArrayList<CartItem> cartItems;
 
     @Override
@@ -25,7 +29,6 @@ public class OrderConfirmationPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmation);
 
-        // Initialize views
         orderConfirmationListView = findViewById(R.id.orderConfirmationListView);
         tvConfirmationMessage = findViewById(R.id.tvConfirmationMessage);
         tvPaymentMethod = findViewById(R.id.tvPaymentMethod);
@@ -34,59 +37,46 @@ public class OrderConfirmationPage extends AppCompatActivity {
         btnGoToHome = findViewById(R.id.btnGoToHome);
         btnTrackOrder = findViewById(R.id.btnTrackOrder);
 
-        // Get cartItems and payment method from intent
-        Intent intent = getIntent();
-        cartItems = (ArrayList<CartItem>) intent.getSerializableExtra("cartItems");
-        String paymentMethod = intent.getStringExtra("paymentMethod");
+        SharedPreferences prefs = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
+        String cartJson = prefs.getString("orderData", "");
+        String paymentMethod = prefs.getString("paymentMethod", "Unknown");
 
-        // Fallback if intent data is missing
-        if (cartItems == null) cartItems = new ArrayList<>();
-        if (paymentMethod == null) paymentMethod = "Unknown";
+        cartItems = parseOrderData(cartJson);
 
-        // Show confirmation info
-        tvConfirmationMessage.setText("Thank you for your order!");
-        tvPaymentMethod.setText("Paid with: " + paymentMethod);
-        tvTotalAmount.setText("Total: " + calculateTotal(cartItems));
-
-        // Display selected menu items in the ListView
         ArrayList<String> itemDetails = new ArrayList<>();
+        double total = 0;
         for (CartItem item : cartItems) {
             itemDetails.add(item.getItemName() + " x" + item.getQuantity() + " - RM" + String.format("%.2f", item.getItemPrice()));
+            total += item.getItemPrice() * item.getQuantity();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemDetails);
-        orderConfirmationListView.setAdapter(adapter);
+        orderConfirmationListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemDetails));
+        tvConfirmationMessage.setText("Thank you for your order!");
+        tvPaymentMethod.setText("Paid with: " + paymentMethod);
+        tvTotalAmount.setText("Total: RM" + String.format("%.2f", total));
 
-        // Go to Menu
-        btnGoToMenu.setOnClickListener(v -> {
-            Intent i = new Intent(OrderConfirmationPage.this, MenuPage.class);
-            startActivity(i);
-        });
-
-        // Go to Home
-        btnGoToHome.setOnClickListener(v -> {
-            Intent i = new Intent(OrderConfirmationPage.this, HomePage.class);
-            startActivity(i);
-        });
-
-        // Track Order
+        btnGoToMenu.setOnClickListener(v -> startActivity(new Intent(this, MenuPage.class)));
+        btnGoToHome.setOnClickListener(v -> startActivity(new Intent(this, HomePage.class)));
         btnTrackOrder.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences = getSharedPreferences("OrderTrackingPrefs", MODE_PRIVATE);
-            sharedPreferences.edit()
-                    .putString("trackingFood", cartItems.size() > 0 ? cartItems.get(0).getItemName() : "Food") // example
+            if (cartItems == null || cartItems.isEmpty()) {
+                Toast.makeText(this, "Nothing to track!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            SharedPreferences trackPrefs = getSharedPreferences("OrderTrackingPrefs", MODE_PRIVATE);
+            trackPrefs.edit()
+                    .putString("trackingFood", cartItems.get(0).getItemName())
                     .putInt("trackingStatus", 0)
                     .apply();
 
-            Intent i = new Intent(OrderConfirmationPage.this, OrderTrackingPage.class);
-            startActivity(i);
+            startActivity(new Intent(this, OrderTrackingPage.class));
         });
     }
 
-    private String calculateTotal(ArrayList<CartItem> items) {
-        double total = 0;
-        for (CartItem item : items) {
-            total += item.getItemPrice() * item.getQuantity();
-        }
-        return "RM" + String.format("%.2f", total);
+    private ArrayList<CartItem> parseOrderData(String jsonData) {
+        if (jsonData == null || jsonData.isEmpty()) return new ArrayList<>();
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CartItem>>() {}.getType();
+        return gson.fromJson(jsonData, type);
     }
 }
