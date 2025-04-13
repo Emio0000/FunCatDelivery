@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -14,20 +15,23 @@
         android:padding="8dp"
         android:gravity="center_vertical">
 
+        <!-- ✅ FOOD IMAGE -->
         <ImageView
-            android:id="@+id/itemImage"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
+            android:id="@+id/cart_item_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:contentDescription="Food image" />
 
+        <!-- ✅ ITEM INFO -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- Title + Price + Checkbox -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,66 +39,67 @@
                 android:gravity="center_vertical">
 
                 <CheckBox
-                    android:id="@+id/itemCheckBox"
+                    android:id="@+id/cart_item_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="6dp" />
 
                 <TextView
-                    android:id="@+id/itemText"
+                    android:id="@+id/cart_item_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Item Name"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textStyle="bold" />
+                    android:ellipsize="end" />
 
                 <TextView
-                    android:id="@+id/itemPrice"
+                    android:id="@+id/cart_item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="RM 0.00"
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <!-- Quantity Controls -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="6dp"
+                android:gravity="end|center_vertical">
 
                 <TextView
-                    android:id="@+id/quantityText"
+                    android:id="@+id/cart_item_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
-                    android:textSize="13sp"
-                    android:layout_marginEnd="6dp" />
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp" />
 
                 <Button
                     android:id="@+id/btnMinus"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:text="-"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/btnPlus"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:text="+"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     android:layout_marginStart="4dp" />
 
                 <Button
-                    android:id="@+id/btnDeleteItem"
+                    android:id="@+id/btnDelete"
                     android:layout_width="64dp"
-                    android:layout_height="36dp"
+                    android:layout_height="40dp"
                     android:text="DEL"
-                    android:textSize="6dp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white"
                     android:backgroundTint="#B00020"
                     android:layout_marginStart="8dp" />

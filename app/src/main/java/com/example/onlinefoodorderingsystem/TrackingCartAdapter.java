@@ -33,7 +33,45 @@ public class TrackingCartAdapter extends RecyclerView.Adapter<TrackingCartAdapte
         holder.name.setText(item.getItemName());
         holder.price.setText(String.format("RM %.2f", item.getItemPrice()));
         holder.quantity.setText("x" + item.getQuantity());
-        // Optionally load image into holder.image
+
+        // ✅ Load the correct image based on item name
+        String itemName = item.getItemName().toLowerCase();
+        int imageResId = R.drawable.logo; // fallback image
+
+        switch (itemName) {
+            case "chicken chop":
+                imageResId = R.drawable.chicken;
+                break;
+            case "lamb grilled":
+                imageResId = R.drawable.lamb;
+                break;
+            case "double burger":
+                imageResId = R.drawable.burger;
+                break;
+            case "deer satay":
+                imageResId = R.drawable.satay;
+                break;
+            case "salad":
+                imageResId = R.drawable.salad;
+                break;
+            case "salmon salad":
+                imageResId = R.drawable.salmon;
+                break;
+            case "orange juice":
+                imageResId = R.drawable.drink1;
+                break;
+            case "dragon juice":
+                imageResId = R.drawable.drink2;
+                break;
+            case "ice matcha":
+                imageResId = R.drawable.drink3;
+                break;
+            case "vanilla coffe":
+                imageResId = R.drawable.drink4;
+                break;
+        }
+
+        holder.image.setImageResource(imageResId);
     }
 
     @Override

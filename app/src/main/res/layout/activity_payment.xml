@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:text="Submit Payment"
         android:textColor="#ffffff"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#B388FF"
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
 

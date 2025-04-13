@@ -5,12 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.util.ArrayList;
 
@@ -33,18 +28,15 @@ public class CartPage extends Activity {
         btnBackToMenu = findViewById(R.id.btnBackToMenu);
         totalPriceTextView = findViewById(R.id.totalPrice);
 
-        // Load cart items from CartManager
         cartItems = CartManager.getCartItems(this);
 
-        // ✅ Preselect all items by default
         for (CartItem item : cartItems) {
-            item.setSelected(true);
+            item.setSelected(true); // Select all items by default
         }
 
         adapter = new CartAdapter(cartItems);
         cartListView.setAdapter(adapter);
 
-        // Calculate and display total price
         updateTotalPrice();
 
         btnProceedToOrder.setOnClickListener(v -> {
@@ -60,35 +52,31 @@ public class CartPage extends Activity {
             }
 
             if (selectedItems.isEmpty()) {
-                Toast.makeText(CartPage.this, "Please select at least one item to proceed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select at least one item.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // DEBUG TOAST
-            Toast.makeText(CartPage.this, "Selected items: " + selectedItems.size(), Toast.LENGTH_SHORT).show();
+            CartManager.replaceCart(this, unselectedItems);
 
-            CartManager.replaceCart(CartPage.this, unselectedItems);
-
-            Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
-            paymentIntent.putExtra("cartItems", selectedItems);
-            startActivity(paymentIntent);
+            Intent intent = new Intent(CartPage.this, PaymentPage.class);
+            intent.putExtra("cartItems", selectedItems);
+            startActivity(intent);
         });
 
         btnBackToMenu.setOnClickListener(v -> {
-            Intent menuIntent = new Intent(CartPage.this, MenuPage.class);
-            startActivity(menuIntent);
+            startActivity(new Intent(CartPage.this, MenuPage.class));
             finish();
         });
     }
 
     private void updateTotalPrice() {
-        double totalPrice = 0.0;
+        double total = 0.0;
         for (CartItem item : cartItems) {
             if (item.isSelected()) {
-                totalPrice += item.getItemPrice() * item.getQuantity();
+                total += item.getItemPrice() * item.getQuantity();
             }
         }
-        totalPriceTextView.setText(String.format("RM%.2f", totalPrice));
+        totalPriceTextView.setText(String.format("RM%.2f", total));
     }
 
     private class CartAdapter extends ArrayAdapter<CartItem> {
@@ -104,23 +92,24 @@ public class CartPage extends Activity {
 
             CartItem currentItem = getItem(position);
 
-            TextView itemText = convertView.findViewById(R.id.itemText);
-            TextView itemPrice = convertView.findViewById(R.id.itemPrice);
-            TextView quantityText = convertView.findViewById(R.id.quantityText);
-            CheckBox checkBox = convertView.findViewById(R.id.itemCheckBox);
+            ImageView itemImage = convertView.findViewById(R.id.cart_item_image);
+            TextView itemName = convertView.findViewById(R.id.cart_item_name);
+            TextView itemPrice = convertView.findViewById(R.id.cart_item_price);
+            TextView quantityText = convertView.findViewById(R.id.cart_item_quantity);
+            CheckBox checkBox = convertView.findViewById(R.id.cart_item_checkbox);
             Button btnMinus = convertView.findViewById(R.id.btnMinus);
             Button btnPlus = convertView.findViewById(R.id.btnPlus);
-            Button deleteButton = convertView.findViewById(R.id.btnDeleteItem);
+            Button deleteButton = convertView.findViewById(R.id.btnDelete);
 
-            itemText.setText(currentItem.getItemName());
+            itemImage.setImageResource(currentItem.getImageResId());
+            itemName.setText(currentItem.getItemName());
             itemPrice.setText("RM" + currentItem.getItemPrice());
             quantityText.setText(String.valueOf(currentItem.getQuantity()));
-
-            // ✅ Fix for checkbox state change triggering during view recycling
-            checkBox.setOnCheckedChangeListener(null); // Remove previous listener
             checkBox.setChecked(currentItem.isSelected());
+
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 currentItem.setSelected(isChecked);
+                notifyDataSetChanged();
                 updateTotalPrice();
             });
 

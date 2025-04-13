@@ -6,25 +6,17 @@ public class CartItem implements Serializable {
     private String itemName;
     private double itemPrice;
     private int quantity;
-
     private boolean selected;
+    private int imageResId;
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-
-    public CartItem(String itemName, double itemPrice, int quantity) {
+    public CartItem(String itemName, double itemPrice, int quantity, int imageResId) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.quantity = quantity;
+        this.imageResId = imageResId;
+        this.selected = true;
     }
 
-    // Getters and Setters
     public String getItemName() {
         return itemName;
     }
@@ -49,13 +41,29 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
-    // Override toString() for easy debugging/logging
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +
                 "itemName='" + itemName + '\'' +
                 ", itemPrice=" + itemPrice +
                 ", quantity=" + quantity +
+                ", imageResId=" + imageResId +
                 '}';
     }
 }

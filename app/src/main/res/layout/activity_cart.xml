@@ -59,16 +59,20 @@
         <Button
             android:id="@+id/btnBackToMenu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
+            android:layout_marginEnd="8dp"
             android:text="Back to Menu"
-            android:layout_marginEnd="8dp" />
+            android:textColor="@android:color/white"
+            android:backgroundTint="#B388FF" />
 
         <Button
             android:id="@+id/btnProceedToOrder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="Proceed to Payment" />
+            android:text="Proceed to Payment"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#B388FF"/>
     </LinearLayout>
 </LinearLayout>
