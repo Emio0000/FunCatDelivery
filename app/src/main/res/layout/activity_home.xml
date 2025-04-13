@@ -93,13 +93,13 @@
                 android:layout_marginVertical="8dp"
                 android:background="#EEEEEE"/>
 
-            <!-- Cart Button -->
+
             <Button
                 android:id="@+id/btnCart"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/cart"
+                android:drawableStart="@drawable/ic_cart"
                 android:drawablePadding="16dp"
                 android:drawableTint="#6200EE"
                 android:gravity="start|center_vertical"
@@ -131,13 +131,12 @@
                 android:textSize="16sp"
                 android:background="?attr/selectableItemBackground"/>
 
-            <!-- Track Order Button -->
             <Button
                 android:id="@+id/btnTrackOrder"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/track"
+                android:drawableStart="@android:drawable/ic_menu_compass"
                 android:drawablePadding="16dp"
                 android:drawableTint="#6200EE"
                 android:gravity="start|center_vertical"

@@ -11,14 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class PaymentPage extends Activity {
 
     private RadioButton rbCreditCard, rbPayPal, rbCod;
-    private Button btnSubmitPayment;
+    private Button btnSubmitPayment, btnBack;
     private TextView txtTotalAmount;
+    private RecyclerView rvCartItems;
     private ArrayList<CartItem> cartItems;
 
     @SuppressLint("MissingInflatedId")
@@ -37,21 +40,30 @@ public class PaymentPage extends Activity {
             return;
         }
 
+        Toast.makeText(this, "Opened PaymentPage with " + cartItems.size() + " items", Toast.LENGTH_SHORT).show();
+
         // Initialize Views
         rbCreditCard = findViewById(R.id.rb_credit_card);
         rbPayPal = findViewById(R.id.rb_paypal);
         rbCod = findViewById(R.id.rb_cod);
         btnSubmitPayment = findViewById(R.id.btnSubmitPayment);
+        btnBack = findViewById(R.id.btnBack);
         txtTotalAmount = findViewById(R.id.txtTotalAmount);
+        rvCartItems = findViewById(R.id.rvCartItems);
+
+        // Setup RecyclerView
+        rvCartItems.setLayoutManager(new LinearLayoutManager(this));
+        PaymentCartAdapter adapter = new PaymentCartAdapter(cartItems);
+        rvCartItems.setAdapter(adapter);
 
         // Calculate total price
         double total = 0;
         for (CartItem item : cartItems) {
             total += item.getItemPrice() * item.getQuantity();
         }
-        txtTotalAmount.setText("Total: $" + String.format("%.2f", total));
+        txtTotalAmount.setText("Total: RM" + String.format("%.2f", total));
 
-        // Ensure only one radio button can be selected at a time
+        // RadioButton logic
         rbCreditCard.setOnClickListener(v -> {
             rbCreditCard.setChecked(true);
             rbPayPal.setChecked(false);
@@ -70,11 +82,13 @@ public class PaymentPage extends Activity {
             rbCod.setChecked(true);
         });
 
-        // Confirm payment
+        // Back button logic
+        btnBack.setOnClickListener(v -> finish());
+
+        // Submit Payment
         btnSubmitPayment.setOnClickListener(v -> {
             String selectedMethod;
 
-            // Check which payment method is selected
             if (rbCreditCard.isChecked()) {
                 selectedMethod = "Credit Card";
             } else if (rbPayPal.isChecked()) {
@@ -85,30 +99,23 @@ public class PaymentPage extends Activity {
                 selectedMethod = null;
             }
 
-            // Check if a payment method is selected
             if (selectedMethod == null) {
                 Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
             } else {
-                // Show the confirmation dialog with the appropriate message
                 String confirmationMessage = "Are you sure you want to proceed with payment using " + selectedMethod + "?";
 
-                // Show the confirmation dialog
                 new AlertDialog.Builder(PaymentPage.this)
                         .setTitle("Confirm Payment")
                         .setMessage(confirmationMessage)
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            // Payment successful - Show a Toast message
                             Toast.makeText(this, "Payment Successful using " + selectedMethod, Toast.LENGTH_LONG).show();
-
-                            // Save the order details to SharedPreferences
                             saveOrderToSharedPreferences(cartItems, selectedMethod);
 
-                            // Pass the selected payment method and cart items to the OrderConfirmationPage
                             Intent confirmationIntent = new Intent(PaymentPage.this, OrderConfirmationPage.class);
                             confirmationIntent.putExtra("paymentMethod", selectedMethod);
-                            confirmationIntent.putExtra("cartItems", cartItems); // Pass the cart items to the confirmation page
-                            startActivity(confirmationIntent); // Navigate to OrderConfirmationPage
-                            finish(); // Close PaymentPage
+                            confirmationIntent.putExtra("cartItems", cartItems);
+                            startActivity(confirmationIntent);
+                            finish();
                         })
                         .setNegativeButton("No", null)
                         .show();
@@ -117,18 +124,17 @@ public class PaymentPage extends Activity {
     }
 
     private void saveOrderToSharedPreferences(ArrayList<CartItem> cartItems, String paymentMethod) {
-        // Get the shared preferences editor
         SharedPreferences sharedPreferences = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Convert cart items into a JSON string (You could also use other methods like Gson)
         StringBuilder orderData = new StringBuilder();
         for (CartItem item : cartItems) {
-            orderData.append(item.getItemName()).append(" x").append(item.getQuantity()).append(" - $")
-                    .append(item.getItemPrice()).append(" each\n");
+            orderData.append(item.getItemName())
+                    .append(" x").append(item.getQuantity())
+                    .append(" - RM").append(String.format("%.2f", item.getItemPrice()))
+                    .append(" each\n");
         }
 
-        // Save the order data and payment method
         editor.putString("orderData", orderData.toString());
         editor.putString("paymentMethod", paymentMethod);
         editor.apply();

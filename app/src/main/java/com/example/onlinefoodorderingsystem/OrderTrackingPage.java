@@ -8,18 +8,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class OrderTrackingPage extends AppCompatActivity {
 
-    private TextView tvFoodName, tvStatus;
-    private Button btnDeleteSelected, btnBackToHome, btnBackToConfirmation;
+    private TextView tvFoodName, tvStatus, tvSubtotal, tvDeliveryFee, tvTotal;
+    private Button btnBackToHome, btnBackToConfirmation;
+    private RecyclerView rvCartItems;
 
     private int currentStep = 0;
     private final String[] statusSteps = {
-            "\uD83D\uDFE1 Order Placed",        // yellow
-            "\uD83D\uDFE0 Preparing Food",     // orange
-            "\uD83D\uDD35 Out for Delivery",   // blue
-            "\uD83D\uDFE2 Delivered"           // green
+            "\uD83D\uDFE1 Order Placed",
+            "\uD83D\uDFE0 Preparing Food",
+            "\uD83D\uDD35 Out for Delivery",
+            "\uD83D\uDFE2 Delivered"
     };
 
     private final Handler handler = new Handler();
@@ -27,6 +32,7 @@ public class OrderTrackingPage extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private static final String PREF_NAME = "OrderTrackingPrefs";
+    private static final String ORDER_PREFS = "OrderPreferences";
     private static final String KEY_STATUS = "trackingStatus";
     private static final String KEY_FOOD = "trackingFood";
 
@@ -35,54 +41,95 @@ public class OrderTrackingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
-        // Initialize views
+        // Toast to confirm screen loaded
+        Toast.makeText(this, "OrderTrackingPage Loaded", Toast.LENGTH_SHORT).show();
+
+        // Init Views
         tvFoodName = findViewById(R.id.tvFoodName);
         tvStatus = findViewById(R.id.tvStatus);
-        btnDeleteSelected = findViewById(R.id.btnDeleteSelected);
+        tvSubtotal = findViewById(R.id.tvSubtotal);
+        tvDeliveryFee = findViewById(R.id.tvDeliveryFee);
+        tvTotal = findViewById(R.id.tvTotal);
         btnBackToHome = findViewById(R.id.btnBackHome);
-        btnBackToConfirmation = findViewById(R.id.btnBackToConfirmation);
+        btnBackToConfirmation = findViewById(R.id.btnContactSupport);
+        rvCartItems = findViewById(R.id.rvCartItems);
 
-        // Get SharedPreferences
-        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        btnBackToConfirmation.setText("Back to Confirmation");
 
-        // Retrieve food name and current tracking status from SharedPreferences
-        String foodName = sharedPreferences.getString(KEY_FOOD, null);
-        currentStep = sharedPreferences.getInt(KEY_STATUS, 0);
+        // Load from SharedPreferences
+        // You've already uploaded the correct version!
+// Just make sure the following works:
 
-        // If food name exists, display it; otherwise, show "Tracking page is empty"
-        if (foodName != null) {
-            tvFoodName.setText(foodName);
+        // Already uploaded working version — just ensure orderData is loaded:
+        SharedPreferences orderPrefs = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
+        String orderData = orderPrefs.getString("orderData", "");
+        ArrayList<CartItem> cartItems = parseOrderData(orderData);
+
+        rvCartItems.setLayoutManager(new LinearLayoutManager(this));
+        rvCartItems.setAdapter(new CartAdapter(cartItems));
+
+
+// Show total
+        double subtotal = calculateSubtotal(cartItems);
+        double deliveryFee = 5.00;
+        double total = subtotal + deliveryFee;
+
+        tvSubtotal.setText(String.format("RM%.2f", subtotal));
+        tvDeliveryFee.setText(String.format("RM%.2f", deliveryFee));
+        tvTotal.setText(String.format("RM%.2f", total));
+        
+        // Status tracking
+        if (tvFoodName != null) {
+            tvFoodName.setText("Order Summary");
             updateStatus(currentStep);
             if (currentStep < statusSteps.length - 1) {
-                startStatusProgression(); // Start updating the status every 7 seconds
+                startStatusProgression();
             }
         } else {
-            tvFoodName.setText("Tracking page is empty");
+            tvFoodName.setText("No active order to track");
             tvStatus.setText("");
         }
 
-        // Delete button functionality
-        btnDeleteSelected.setOnClickListener(v -> {
-            sharedPreferences.edit().clear().apply();  // Clear stored data
-            tvFoodName.setText("Tracking page is empty");
-            tvStatus.setText("");
-            handler.removeCallbacks(statusUpdater);  // Stop the status update
-            Toast.makeText(this, "Tracking data deleted", Toast.LENGTH_SHORT).show();
-        });
-
-        // Back to Home page
+        // Back buttons
         btnBackToHome.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderTrackingPage.this, HomePage.class);
-            startActivity(intent);
+            startActivity(new Intent(OrderTrackingPage.this, HomePage.class));
             finish();
         });
 
-        // Back to OrderConfirmationPage
         btnBackToConfirmation.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderTrackingPage.this, OrderConfirmationPage.class);
-            startActivity(intent);
+            startActivity(new Intent(OrderTrackingPage.this, OrderConfirmationPage.class));
             finish();
         });
+    }
+
+    private ArrayList<CartItem> parseOrderData(String orderData) {
+        ArrayList<CartItem> items = new ArrayList<>();
+        if (!orderData.isEmpty()) {
+            String[] itemStrings = orderData.split(":");
+            for (String itemString : itemStrings) {
+                String[] parts = itemString.split(";");
+                if (parts.length == 3) {
+                    try {
+                        items.add(new CartItem(
+                                parts[0],
+                                Double.parseDouble(parts[1]),
+                                Integer.parseInt(parts[2])
+                        ));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return items;
+    }
+
+    private double calculateSubtotal(ArrayList<CartItem> items) {
+        double subtotal = 0;
+        for (CartItem item : items) {
+            subtotal += item.getItemPrice() * item.getQuantity();
+        }
+        return subtotal;
     }
 
     private void startStatusProgression() {
@@ -92,32 +139,23 @@ public class OrderTrackingPage extends AppCompatActivity {
                 if (currentStep < statusSteps.length - 1) {
                     currentStep++;
                     updateStatus(currentStep);
-                    sharedPreferences.edit().putInt(KEY_STATUS, currentStep).apply();  // Save the updated status
-                    handler.postDelayed(this, 7000);  // Update status every 7 seconds
+                    sharedPreferences.edit().putInt(KEY_STATUS, currentStep).apply();
+                    handler.postDelayed(this, 7000);
                 }
             }
         };
-        handler.postDelayed(statusUpdater, 7000);  // Initial delay of 7 seconds
+        handler.postDelayed(statusUpdater, 7000);
     }
 
     private void updateStatus(int step) {
-        String colorIcon;
-        switch (step) {
-            case 0:
-                colorIcon = "\uD83D\uDFE1"; // yellow
-                break;
-            case 1:
-                colorIcon = "\uD83D\uDFE0"; // orange
-                break;
-            case 2:
-                colorIcon = "\uD83D\uDD35"; // blue
-                break;
-            case 3:
-                colorIcon = "\uD83D\uDFE2"; // green
-                break;
-            default:
-                colorIcon = "⚪";
+        if (step >= 0 && step < statusSteps.length) {
+            tvStatus.setText(statusSteps[step]);
         }
-        tvStatus.setText(colorIcon + " " + statusSteps[step].split(" ", 2)[1]);  // Display status with corresponding color icon
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(statusUpdater);
     }
 }

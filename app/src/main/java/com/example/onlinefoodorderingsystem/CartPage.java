@@ -19,7 +19,7 @@ public class CartPage extends Activity {
     private ListView cartListView;
     private Button btnProceedToOrder;
     private Button btnBackToMenu;
-    private TextView totalPriceTextView; // Reference to the total price TextView
+    private TextView totalPriceTextView;
     private ArrayList<CartItem> cartItems;
     private CartAdapter adapter;
 
@@ -31,10 +31,15 @@ public class CartPage extends Activity {
         cartListView = findViewById(R.id.cartListView);
         btnProceedToOrder = findViewById(R.id.btnProceedToOrder);
         btnBackToMenu = findViewById(R.id.btnBackToMenu);
-        totalPriceTextView = findViewById(R.id.totalPrice); // Initialize the TextView
+        totalPriceTextView = findViewById(R.id.totalPrice);
 
         // Load cart items from CartManager
         cartItems = CartManager.getCartItems(this);
+
+        // ✅ Preselect all items by default
+        for (CartItem item : cartItems) {
+            item.setSelected(true);
+        }
 
         adapter = new CartAdapter(cartItems);
         cartListView.setAdapter(adapter);
@@ -46,7 +51,6 @@ public class CartPage extends Activity {
             ArrayList<CartItem> selectedItems = new ArrayList<>();
             ArrayList<CartItem> unselectedItems = new ArrayList<>();
 
-            // Separate selected and unselected items
             for (CartItem item : cartItems) {
                 if (item.isSelected()) {
                     selectedItems.add(item);
@@ -55,16 +59,16 @@ public class CartPage extends Activity {
                 }
             }
 
-            // Check if at least one item is selected
             if (selectedItems.isEmpty()) {
                 Toast.makeText(CartPage.this, "Please select at least one item to proceed.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Save only the unselected items back to CartManager
+            // DEBUG TOAST
+            Toast.makeText(CartPage.this, "Selected items: " + selectedItems.size(), Toast.LENGTH_SHORT).show();
+
             CartManager.replaceCart(CartPage.this, unselectedItems);
 
-            // Proceed with selected items to the PaymentPage
             Intent paymentIntent = new Intent(CartPage.this, PaymentPage.class);
             paymentIntent.putExtra("cartItems", selectedItems);
             startActivity(paymentIntent);
@@ -81,12 +85,10 @@ public class CartPage extends Activity {
         double totalPrice = 0.0;
         for (CartItem item : cartItems) {
             if (item.isSelected()) {
-                totalPrice += item.getItemPrice() * item.getQuantity(); // Calculate total for selected items
+                totalPrice += item.getItemPrice() * item.getQuantity();
             }
         }
-
-        // Update the total price in the TextView
-        totalPriceTextView.setText(String.format("$%.2f", totalPrice));
+        totalPriceTextView.setText(String.format("RM%.2f", totalPrice));
     }
 
     private class CartAdapter extends ArrayAdapter<CartItem> {
@@ -105,48 +107,45 @@ public class CartPage extends Activity {
             TextView itemText = convertView.findViewById(R.id.itemText);
             TextView itemPrice = convertView.findViewById(R.id.itemPrice);
             TextView quantityText = convertView.findViewById(R.id.quantityText);
-            CheckBox checkBox = convertView.findViewById(R.id.itemCheckBox);  // Reference to the CheckBox
+            CheckBox checkBox = convertView.findViewById(R.id.itemCheckBox);
             Button btnMinus = convertView.findViewById(R.id.btnMinus);
             Button btnPlus = convertView.findViewById(R.id.btnPlus);
             Button deleteButton = convertView.findViewById(R.id.btnDeleteItem);
 
             itemText.setText(currentItem.getItemName());
-            itemPrice.setText("$" + currentItem.getItemPrice());
+            itemPrice.setText("RM" + currentItem.getItemPrice());
             quantityText.setText(String.valueOf(currentItem.getQuantity()));
-            checkBox.setChecked(currentItem.isSelected());  // Set the checkbox state based on selection
 
-            // Handle checkbox click event
+            // ✅ Fix for checkbox state change triggering during view recycling
+            checkBox.setOnCheckedChangeListener(null); // Remove previous listener
+            checkBox.setChecked(currentItem.isSelected());
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                currentItem.setSelected(isChecked);  // Update the CartItem's selected state
-                notifyDataSetChanged();  // Refresh the ListView to reflect the change
-                updateTotalPrice(); // Update total price when selection changes
+                currentItem.setSelected(isChecked);
+                updateTotalPrice();
             });
 
-            // Minus button to decrease quantity
             btnMinus.setOnClickListener(v -> {
                 if (currentItem.getQuantity() > 1) {
                     currentItem.setQuantity(currentItem.getQuantity() - 1);
                     CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                     notifyDataSetChanged();
-                    updateTotalPrice(); // Update total price when quantity changes
+                    updateTotalPrice();
                 }
             });
 
-            // Plus button to increase quantity
             btnPlus.setOnClickListener(v -> {
                 currentItem.setQuantity(currentItem.getQuantity() + 1);
                 CartManager.updateQuantity(CartPage.this, position, currentItem.getQuantity());
                 notifyDataSetChanged();
-                updateTotalPrice(); // Update total price when quantity changes
+                updateTotalPrice();
             });
 
-            // Delete button to remove item from the cart
             deleteButton.setOnClickListener(v -> {
                 CartManager.removeItem(CartPage.this, position);
                 cartItems.remove(position);
                 notifyDataSetChanged();
                 Toast.makeText(CartPage.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
-                updateTotalPrice(); // Update total price after item is removed
+                updateTotalPrice();
             });
 
             return convertView;

@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:padding="24dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +32,13 @@
             android:textColor="#757575"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCartItems"
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="List of selected menu items" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -3,28 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@drawable/background">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item Name"
+        android:text="Food Name"
         android:textStyle="bold"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tvItemQuantity"
+        android:id="@+id/tvItemPriceQty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Qty: 1"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvItemPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RM 0.00"
+        android:text="RM12.00 x2"
         android:textSize="14sp" />
 </LinearLayout>
